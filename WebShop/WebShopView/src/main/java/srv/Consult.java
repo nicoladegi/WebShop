@@ -2,6 +2,7 @@ package srv;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -15,10 +16,11 @@ import dto.ProdottoDto;
 import dto.ProduttoreDto;
 
 
+
 @WebServlet("/Consult")
 public class Consult extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private List<ProdottoDto> pdto1;
+	private Map<Integer, ProdottoDto> pdto1;
 	private List<ProduttoreDto> pdto;
 
 
@@ -31,7 +33,7 @@ public class Consult extends HttpServlet {
 		pdto.forEach(ProduttoreDto::print);
 		
 		pdto1 = serv.consultaProdotti();
-		pdto1.forEach(ProdottoDto::print);
+		pdto1.forEach((k,v)->v.print());;
 		
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
@@ -42,4 +44,7 @@ public class Consult extends HttpServlet {
 		doGet(request, response);
 	}
 
+	/*
+	 * Il frontend riceverà una versione dei dto completa e inoltrerà questa versione completa anche al carrello, in quanto serviranno sia l'id che le informazioni sul produttore
+	 */
 }

@@ -1,5 +1,7 @@
 package dto;
 
+import java.util.Objects;
+
 import entities.Prodotto;
 import entities.Produttore;
 
@@ -136,7 +138,26 @@ public class ProdottoDto {
 		return "modello=" + modello + ", "+ produttore.toString() + ", prezzo=" + prezzo + ", quantita=" + quantita + " , tipo=" + tipo ;
 	}
 	
-	public static void print(ProdottoDto p) {
-		System.out.println(p.toString());
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, modello, produttore, tipo);
+	}
+
+	@Override //No quantità
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ProdottoDto other = (ProdottoDto) obj;
+		return id == other.id && Objects.equals(modello, other.modello)
+				&& Float.floatToIntBits(prezzo) == Float.floatToIntBits(other.prezzo)
+				&& Objects.equals(produttore, other.produttore) && tipo == other.tipo;
+	}
+
+	public void print() {
+		System.out.println(this.toString());
 	}
 }

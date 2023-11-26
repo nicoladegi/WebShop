@@ -1,6 +1,7 @@
 package bl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.LocalBean;
@@ -36,8 +37,8 @@ public class EcommerceService implements EcommerceServiceLocal {
 	    }
 	    
 	    //estrapola lista degli articoli del magazzino
-	    public List<ProdottoDto> consultaProdotti() {
-	    	List<ProdottoDto> interrogazione = prodottoDao.estraiArchivio();
+	    public Map<Integer, ProdottoDto> consultaProdotti() {
+	    	Map<Integer, ProdottoDto> interrogazione = prodottoDao.estraiArchivio();
 	    	return interrogazione;
 	    }
 
@@ -59,4 +60,13 @@ public class EcommerceService implements EcommerceServiceLocal {
 	    public void aggiornaProdotto(ProdottoDto pDto) {
 	    	prodottoDao.aggiorna(pDto);
 	    }
+	    
+	    public ProdottoDto cercaProdotto(int id) {
+	    	ProdottoDto result = prodottoDao.ricercaPerId(id);
+	    	return result;
+	    }
+	    
+	    //Aggiungi prodotto
+	    //Aggiungi produttore
+	    //questi metodi useranno le versioni dei DTO contenenti i valori di ID ed i rispettivi riferimenti agli oggetti ProdottoDto e ProduttoreDto
 }

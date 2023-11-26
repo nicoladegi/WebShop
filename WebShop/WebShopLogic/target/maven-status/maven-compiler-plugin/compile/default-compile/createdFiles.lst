@@ -1,2 +1,4 @@
 bl/EcommerceService.class
 bl/EcommerceServiceLocal.class
+bl/Chart.class
+bl/ChartLocal.class

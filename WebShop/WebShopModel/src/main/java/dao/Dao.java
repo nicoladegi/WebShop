@@ -1,7 +1,5 @@
 package dao;
 
-import java.util.List;
-
 public interface Dao <T> {
 	
 	public void inserisci(T t);
@@ -14,6 +12,4 @@ public interface Dao <T> {
     
     public void aggiorna(T t);
     
-    public List<T> estraiArchivio();
-
 }

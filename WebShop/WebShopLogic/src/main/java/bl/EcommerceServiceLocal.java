@@ -1,6 +1,7 @@
 package bl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Local;
 
@@ -11,7 +12,7 @@ import dto.ProduttoreDto;
 @Local
 public interface EcommerceServiceLocal {
 
-    public List<ProdottoDto> consultaProdotti();
+    public Map<Integer, ProdottoDto> consultaProdotti();
 
     public List<ProduttoreDto> consultaProduttori();
     
