@@ -1,0 +1,12 @@
+dto/ProdottoDto.class
+dao/ProdottoDao.class
+dto/ProduttoreDto$Builder.class
+dao/Dao.class
+entities/Produttore.class
+entities/Produttore$Builder.class
+dto/ProduttoreDto.class
+dao/ProduttoreDao.class
+entities/Prodotto.class
+dto/ProdottoDto$Builder.class
+dao/JPAUtil.class
+entities/Prodotto$Builder.class
