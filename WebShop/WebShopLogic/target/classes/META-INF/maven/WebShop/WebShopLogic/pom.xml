@@ -1,0 +1,44 @@
+<!--Prima di fare clean install sui singoli pom occorre farlo sul pom generale, se no da errore!-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>WebShop</groupId>
+    <artifactId>WebShop</artifactId>
+    <version>0.0.1</version>
+  </parent>
+  
+  <artifactId>WebShopLogic</artifactId>
+  <packaging>ejb</packaging>
+
+  <dependencies>
+	
+	<dependency>
+	    <groupId>WebShop</groupId>
+	    <artifactId>WebShopModel</artifactId>
+	    <version>0.0.1</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>javax</groupId>
+	  <artifactId>javaee-api</artifactId>
+	  <version>6.0</version>
+	  <scope>provided</scope>
+	</dependency>
+
+  </dependencies>
+
+<build>
+  <plugins>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-compiler-plugin</artifactId>
+      <version>3.8.1</version> <!-- Serve a scegliere la versione di JRE da utilizzare -->
+      <configuration>
+        <source>17</source>
+        <target>17</target>
+      </configuration>
+    </plugin>
+  </plugins>
+</build>
+
+</project>

@@ -1,7 +1,9 @@
 package dao;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import dto.ProduttoreDto;
 import entities.Produttore;
@@ -86,8 +88,9 @@ public class ProduttoreDao implements Dao<ProduttoreDto> {
 	    }
 	    
 		@SuppressWarnings("unchecked")
-	    public List<ProduttoreDto> estraiArchivio() {
+	    public Map<Integer, ProduttoreDto> estraiArchivio() {
 	    	List<Produttore> auxList = new ArrayList<>();
+	    	Map<Integer, ProduttoreDto> outMap = new LinkedHashMap<>();
 			try {
 				javax.persistence.Query q = em.createQuery("FROM Produttore ");
 				auxList = (List<Produttore>) q.getResultList();
@@ -96,6 +99,7 @@ public class ProduttoreDao implements Dao<ProduttoreDto> {
 				}
 			
 			List<ProduttoreDto> outList = auxList.stream().map(Produttore::toDto).collect(Collectors.toList());
-			return outList;
+			outList.forEach(pdto->outMap.put(pdto.hashCode(), pdto));
+			return outMap;
 	    }
 }
