@@ -11,41 +11,33 @@ import dto.ProdottoDto;
 
 
 @Stateful
-@LocalBean
-public class Chart implements ChartLocal {
+public class Chart implements ChartInterfaceLocal<ProdottoDto>, ChartInterfaceRemote<ProdottoDto> {
 
 	@EJB
 	EcommerceService eCom;
 
-	private List<ProdottoDto> listaAcquisti;
+	private List<ProdottoDto> shoppingList;
 	
     public Chart() {
-        // TODO Auto-generated constructor stub
+    	shoppingList = new ArrayList<ProdottoDto>();
     }
     
-    @PostConstruct
-    private void inizializzaLista() {
-    	listaAcquisti = new ArrayList<ProdottoDto>();
-    }
     
-    //questi metodi useranno le versioni dei DTO NON contenenti i valori di ID ed i rispettivi riferimenti agli oggetti ProdottoDto e ProduttoreDto
-
-    
-    public boolean addChart(ProdottoDto p) {
+    public boolean add(ProdottoDto p) {
     	
-    	boolean result = listaAcquisti.add(p) ? true : false;
+    	boolean result = shoppingList.add(p) ? true : false;
     	return result;
     }
 
     //ProdottoDto avrà al suo interno la quantità da rimuovere
     
-    public boolean removeFromChart(ProdottoDto p) {
+    public boolean remove(ProdottoDto p) {
     	boolean result = false;
     	
-    	for(ProdottoDto prodottoDto : listaAcquisti) {
+    	for(ProdottoDto prodottoDto : shoppingList) {
     		if(prodottoDto.equals(p)) {
     			if(prodottoDto.getQuantita() == p.getQuantita()) {
-        			result = listaAcquisti.remove(p);
+        			result = shoppingList.remove(p);
     			}	else {
 	    				try {
 	        				int quantitafin = prodottoDto.getQuantita() - p.getQuantita();
@@ -63,6 +55,31 @@ public class Chart implements ChartLocal {
     	}
     	return result;
     }
+
+
+	@Override
+	public List<ProdottoDto> readChart() {
+		return shoppingList;
+	}
+
+
+	@Override
+	public boolean dropChart() {
+		boolean result = true;
+		try{
+			shoppingList.clear();
+		}	catch(Exception e) {
+			result = false;
+		}
+		return result;
+	}
+
+
+	@Override
+	public boolean purchase() {
+		eCom.purchase(shoppingList);
+		return false;
+	}
     
     //public boolean purchase() {
     	//eCom;
