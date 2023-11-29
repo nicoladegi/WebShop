@@ -4,6 +4,7 @@
         
         <class>entities.Prodotto</class>
         <class>entities.Produttore</class>
+        <class>entities.Ordini</class>
 
         
         <properties>

@@ -88,18 +88,16 @@ public class ProduttoreDao implements Dao<ProduttoreDto> {
 	    }
 	    
 		@SuppressWarnings("unchecked")
-	    public Map<Integer, ProduttoreDto> estraiArchivio() {
+	    public List<ProduttoreDto> estraiArchivio() {
+			
 	    	List<Produttore> auxList = new ArrayList<>();
-	    	Map<Integer, ProduttoreDto> outMap = new LinkedHashMap<>();
 			try {
 				javax.persistence.Query q = em.createQuery("FROM Produttore ");
 				auxList = (List<Produttore>) q.getResultList();
 			}	catch(Exception e) {
 					e.printStackTrace();
 				}
-			
 			List<ProduttoreDto> outList = auxList.stream().map(Produttore::toDto).collect(Collectors.toList());
-			outList.forEach(pdto->outMap.put(pdto.hashCode(), pdto));
-			return outMap;
+			return outList;
 	    }
 }

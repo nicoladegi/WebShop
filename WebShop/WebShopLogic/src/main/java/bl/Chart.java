@@ -56,12 +56,10 @@ public class Chart implements ChartInterfaceLocal<ProdottoDto>, ChartInterfaceRe
     	return result;
     }
 
-
 	@Override
 	public List<ProdottoDto> readChart() {
 		return shoppingList;
 	}
-
 
 	@Override
 	public boolean dropChart() {
@@ -74,15 +72,10 @@ public class Chart implements ChartInterfaceLocal<ProdottoDto>, ChartInterfaceRe
 		return result;
 	}
 
-
 	@Override
 	public boolean purchase() {
 		eCom.purchase(shoppingList);
 		return false;
 	}
     
-    //public boolean purchase() {
-    	//eCom;
-
-   // }
 }

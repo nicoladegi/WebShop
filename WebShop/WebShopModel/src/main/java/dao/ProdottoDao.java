@@ -104,24 +104,7 @@ public class ProdottoDao implements Dao<ProdottoDto>{
         }
     }
     
-	@SuppressWarnings("unchecked")
-    public Map<Integer, ProdottoDto> estraiArchivio() {
-    	Map<Integer, ProdottoDto> auxMap = new LinkedHashMap<>();
-    	List<Prodotto> auxList = new ArrayList<>();
-		try {
-			Query q = em.createQuery("FROM Prodotto ");
-			auxList = (List<Prodotto>) q.getResultList();
-		}	catch(Exception e) {
-				e.printStackTrace();
-			}
-		List<ProdottoDto> outList = auxList.stream().map(Prodotto::toDto).collect(Collectors.toList());
-		for(ProdottoDto pDto : outList) {
-			auxMap.put(pDto.hashCode(), pDto);
-		}
-		return auxMap;
-    }
     
-    /*
 	@SuppressWarnings("unchecked")
     public List<ProdottoDto> estraiArchivio() {
     	List<Prodotto> auxList = new ArrayList<>();
@@ -135,5 +118,5 @@ public class ProdottoDao implements Dao<ProdottoDto>{
 		List<ProdottoDto> outList = auxList.stream().map(Prodotto::toDto).collect(Collectors.toList());
 		return outList;
     }
-    */
+ 
 }

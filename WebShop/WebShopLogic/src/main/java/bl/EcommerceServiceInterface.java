@@ -7,9 +7,9 @@ import dto.ProduttoreDto;
 
 public interface EcommerceServiceInterface {
 	
-    public Map<Integer, ProdottoDto> readProducts();
+    public List<ProdottoDto> readProducts();
 
-    public Map<Integer, ProduttoreDto> readMakers();
+    public List<ProduttoreDto> readMakers();
     
     public List<ProdottoDto> filterProducts4Makers(String nomeProduttore);
     

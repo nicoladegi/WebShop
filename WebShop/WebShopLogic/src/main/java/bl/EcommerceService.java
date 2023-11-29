@@ -40,14 +40,14 @@ public class EcommerceService implements EcommerceServiceLocal {
 	    }
 
 		@Override
-		public Map<Integer, ProdottoDto> readProducts() {
-	    	Map<Integer, ProdottoDto> interrogazione = prodottoDao.estraiArchivio();
+		public List<ProdottoDto> readProducts() {
+	    	List<ProdottoDto> interrogazione = prodottoDao.estraiArchivio();
 	    	return interrogazione;
 		}
 
 		@Override
-		public Map<Integer, ProduttoreDto> readMakers() {
-			Map<Integer, ProduttoreDto> interrogazione = produttoreDao.estraiArchivio();
+		public List<ProduttoreDto> readMakers() {
+			List<ProduttoreDto> interrogazione = produttoreDao.estraiArchivio();
 	    	return interrogazione;
 		}
 
