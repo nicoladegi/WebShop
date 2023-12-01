@@ -1,9 +1,7 @@
 package dao;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import dto.ProduttoreDto;
 import entities.Produttore;
@@ -11,12 +9,10 @@ import javax.persistence.*;
 
 public class ProduttoreDao implements Dao<ProduttoreDto> {
 	
-	private EntityManagerFactory emf;
 	private EntityManager em; //em rappresenta la sessione di connessione al DB
 	
-	public ProduttoreDao() {
-		emf = JPAUtil.getEntityManagerFactory();
-		em = emf.createEntityManager();
+	public ProduttoreDao(EntityManager em) {
+		this.em = em;
 	}
 	
 	//CRUDs

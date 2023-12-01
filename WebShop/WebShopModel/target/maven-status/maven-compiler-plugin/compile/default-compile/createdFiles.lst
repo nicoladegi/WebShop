@@ -1,5 +1,6 @@
 dto/ProdottoDto.class
 dao/ProdottoDao.class
+entities/Ordini.class
 dto/ProduttoreDto$Builder.class
 dao/Dao.class
 entities/Produttore.class

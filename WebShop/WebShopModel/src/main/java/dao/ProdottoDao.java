@@ -1,22 +1,18 @@
 package dao;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
-import javax.persistence.*;
 import dto.ProdottoDto;
 import entities.Prodotto;
+import javax.persistence.*;
 
 public class ProdottoDao implements Dao<ProdottoDto>{
 
-	private EntityManagerFactory emf;
 	private EntityManager em;
 	
-	public ProdottoDao() {
-		emf = JPAUtil.getEntityManagerFactory();
-		em = emf.createEntityManager();
+	public ProdottoDao(EntityManager em) {
+		this.em = em;
 	}
 	
 	//CRUDs

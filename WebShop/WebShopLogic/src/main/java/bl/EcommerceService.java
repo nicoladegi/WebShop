@@ -1,10 +1,13 @@
 package bl;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import dao.ProdottoDao;
 import dao.ProduttoreDao;
@@ -19,6 +22,8 @@ import dto.ProduttoreDto;
 @Stateless(name="eService", mappedName="eService")
 public class EcommerceService implements EcommerceServiceLocal {
 
+		@PersistenceContext
+		private EntityManager em;
 		private ProdottoDao prodottoDao;
 		private ProduttoreDao produttoreDao;
 		
@@ -29,45 +34,52 @@ public class EcommerceService implements EcommerceServiceLocal {
 
 	    @PostConstruct //verrà eseguito automaticamente dal contenitore EJB dopo la creazione dell’istanza di EcommerceService (durante l'invocazione remota) e prima che venga utilizzata per la prima volta.
 	    private void initializeDao() {
-	    	prodottoDao = new ProdottoDao();
-	    	produttoreDao = new ProduttoreDao();
+	    	prodottoDao = new ProdottoDao(em);
+	    	produttoreDao = new ProduttoreDao(em);
 	    	System.out.println("Sono stato richiamato, Dao inizializzati");
 	    }
 	    
+	    @TransactionAttribute(TransactionAttributeType.REQUIRED)
 	    public ProdottoDto searchProduct(int id) {
 	    	ProdottoDto result = prodottoDao.ricercaPerId(id);
 	    	return result;
 	    }
 
 		@Override
+		@TransactionAttribute(TransactionAttributeType.REQUIRED)
 		public List<ProdottoDto> readProducts() {
 	    	List<ProdottoDto> interrogazione = prodottoDao.estraiArchivio();
 	    	return interrogazione;
 		}
 
 		@Override
+		@TransactionAttribute(TransactionAttributeType.REQUIRED)
 		public List<ProduttoreDto> readMakers() {
 			List<ProduttoreDto> interrogazione = produttoreDao.estraiArchivio();
 	    	return interrogazione;
 		}
 
 		@Override
+		@TransactionAttribute(TransactionAttributeType.REQUIRED)
 		public List<ProdottoDto> filterProducts4Makers(String nomeProduttore) {
 	    	List<ProdottoDto> outList = prodottoDao.ricercaPerProduttoreHQL(nomeProduttore);
 	    	return outList;
 		}
 
 		@Override
+		@TransactionAttribute(TransactionAttributeType.REQUIRED)
 		public void deleteProduct(int id) {
 	    	prodottoDao.cancella(id);			
 		}
 
 		@Override
+		@TransactionAttribute(TransactionAttributeType.REQUIRED)
 		public void updateProduct(ProdottoDto pDto) {
 	    	prodottoDao.aggiorna(pDto);			
 		}
 
 		@Override
+		@TransactionAttribute(TransactionAttributeType.REQUIRED)
 		public boolean purchase(List<ProdottoDto> lpDto) {
 			try {
 				lpDto.forEach(pDto->prodottoDao.inserisci(pDto));

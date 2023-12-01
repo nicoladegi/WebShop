@@ -1,4 +1,8 @@
-bl/EcommerceService.class
 bl/EcommerceServiceLocal.class
 bl/Chart.class
-bl/ChartLocal.class
+bl/EcommerceServiceInterface.class
+bl/EcommerceServiceRemote.class
+bl/ChartInterface.class
+bl/ChartInterfaceRemote.class
+bl/EcommerceService.class
+bl/ChartInterfaceLocal.class
