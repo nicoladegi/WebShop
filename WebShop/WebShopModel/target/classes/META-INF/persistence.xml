@@ -4,7 +4,7 @@
         
         <class>entities.Prodotto</class>
         <class>entities.Produttore</class>
-        <class>entities.Ordini</class>
+        <class>entities.Ordine</class>
 
         
         <properties>

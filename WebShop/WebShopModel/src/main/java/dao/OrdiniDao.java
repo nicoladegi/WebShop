@@ -1,36 +1,63 @@
 package dao;
 
+import javax.persistence.EntityManager;
 
-public class OrdiniDao implements Dao<OrdiniDto>{
+import dto.OrdineDto;
+import entities.Ordine;
 
-	@Override
-	public void inserisci(Object t) {
-		// TODO Auto-generated method stub
-		
+public class OrdiniDao implements Dao<OrdineDto>{
+	public EntityManager em;
+	
+	
+	public OrdiniDao(EntityManager em) {
+		this.em = em;
 	}
 
-	@Override
-	public void cancella(int id) {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public Object ricercaPerId(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	   @Override
+	    public void inserisci(OrdineDto t) {
+	        try {
+	            Ordine ordine = t.toModel();
+	            em.persist(ordine);
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
 
-	@Override
-	public Object ricercaPerNome(String nome) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	    @Override
+	    public void cancella(int id) {
+	        try {
+	            Ordine ordine = em.find(Ordine.class, id);
+	            if (ordine != null) {
+	                em.remove(ordine);
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
 
-	@Override
-	public void aggiorna(Object t) {
-		// TODO Auto-generated method stub
-		
-	}
+	    @Override
+	    public OrdineDto ricercaPerId(int id) {
+	        try {
+	            Ordine ordine = em.find(Ordine.class, id);
+	            return ordine != null ? ordine.toDto() : null;
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return null;
+	        }
+	    }
 
+	    @Override
+	    public void aggiorna(OrdineDto t) {
+	        try {
+	            Ordine ordine = em.find(Ordine.class, t.getIdOrdine());
+	            if (ordine != null) {
+	                ordine.setProdotto(t.getProdotto().toModel());
+	                ordine.setQuantita(t.getQuantita());
+	                em.merge(ordine);
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
 }

@@ -24,9 +24,7 @@ public class ProdottoDao implements Dao<ProdottoDto>{
 		        			.addPrezzo(prodottoDto.getPrezzo())
 		        			.build();
         try {
-        	em.getTransaction().begin();
         	em.persist(prodotto);
-        	em.getTransaction().commit();
         } 	catch (Exception e) {
             e.printStackTrace();
         	}
@@ -34,12 +32,10 @@ public class ProdottoDao implements Dao<ProdottoDto>{
 
     public void cancella(int id) {
         try {
-        	em.getTransaction().begin();
         	Prodotto prodotto = em.find(Prodotto.class, id);
 	        if (prodotto != null) {
 	            em.remove(prodotto);
 	        }
-	        em.getTransaction().commit();
         } 	catch (Exception e) {
             	e.printStackTrace();
         	}
@@ -48,9 +44,7 @@ public class ProdottoDao implements Dao<ProdottoDto>{
     public ProdottoDto ricercaPerId(int id) {
     	Prodotto prodotto = null;
     	try {
-        	em.getTransaction().begin();
     		prodotto = em.find(Prodotto.class, id);
-	        em.getTransaction().commit();
         } 	catch (Exception e) {
         		e.getMessage();
         	}
@@ -60,9 +54,7 @@ public class ProdottoDao implements Dao<ProdottoDto>{
     public ProdottoDto ricercaPerNome(String nome) {
     	Prodotto prodotto = null;
     	try {
-        	em.getTransaction().begin();
     		prodotto = em.find(Prodotto.class, nome);
-	        em.getTransaction().commit();
         } 	catch (Exception e) {
         		e.getMessage();
         	}
@@ -85,7 +77,6 @@ public class ProdottoDao implements Dao<ProdottoDto>{
 
     public void aggiorna(ProdottoDto prodottoDto) {
         try {
-        	em.getTransaction().begin();
 	        Prodotto prodotto = em.find(Prodotto.class, prodottoDto.getId());
 	        if (prodotto != null) {
 	            prodotto.setModello(prodottoDto.getModello());
@@ -93,7 +84,6 @@ public class ProdottoDao implements Dao<ProdottoDto>{
 	            prodotto.setProduttore(prodottoDto.getProduttore().toModel());
 	            prodotto.setPrezzo(prodottoDto.getPrezzo());
 	            em.merge(prodotto);
-	        em.getTransaction().commit();
         }
         } catch (Exception e) {
             e.printStackTrace();

@@ -24,7 +24,7 @@ public class Prodotto {
 	private char tipo;
 	
 	//String catMerceologica;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="idProduttore")
 	private Produttore produttore;
 	

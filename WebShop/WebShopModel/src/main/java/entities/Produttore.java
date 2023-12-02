@@ -17,7 +17,7 @@ public class Produttore {
 	
 	private String nomeProduttore;
 	
-	@OneToMany(mappedBy = "produttore")
+	@OneToMany(mappedBy = "produttore", fetch = FetchType.LAZY)
 	private List<Prodotto> prodotti;
 
 	public Produttore() {
