@@ -5,7 +5,7 @@ import entities.Prodotto;
 
 public class OrdineDto {
 
-	private int idOrdine;
+	private long idOrdine;
 	private ProdottoDto prodottoDto;
 	private int quantita;
 	
@@ -15,17 +15,11 @@ public class OrdineDto {
 		this.quantita = build.quantita;
 	}
 	
-	public int getIdOrdine() {
+	public long getIdOrdine() {
 		return idOrdine;
 	}
-	public void setIdOrdine(int idOrdine) {
+	public void setIdOrdine(long idOrdine) {
 		this.idOrdine = idOrdine;
-	}
-	public ProdottoDto getProdotto() {
-		return prodottoDto;
-	}
-	public void setProdotto(ProdottoDto prodottoDto) {
-		this.prodottoDto = prodottoDto;
 	}
 	public int getQuantita() {
 		return quantita;
@@ -34,12 +28,20 @@ public class OrdineDto {
 		this.quantita = quantita;
 	}
 	
+	public ProdottoDto getProdottoDto() {
+		return prodottoDto;
+	}
+
+	public void setProdottoDto(ProdottoDto prodottoDto) {
+		this.prodottoDto = prodottoDto;
+	}
+
 	public static class Builder {
-		private int idOrdine;
+		private long idOrdine;
 		private ProdottoDto prodottoDto;
 		private int quantita;
 		
-		public Builder addidOrdine(int i) {
+		public Builder addidOrdine(long i) {
 			this.idOrdine = i;
 			return this;
 		}
@@ -61,13 +63,13 @@ public class OrdineDto {
 
 	public Ordine toModel() {
 		Prodotto prodotto;
-		
 		if(this.prodottoDto != null) {
 			prodotto = this.prodottoDto.toModel();
 		}	else{
 			prodotto = null;
 		}
-		return new Ordine.Builder().addidOrdine(idOrdine).addProdotto(prodotto).addQuantità(idOrdine).build();
+		//non porto in model la lista per non creare il loop
+		return new Ordine.Builder().addId(idOrdine).addProdotto(prodotto).addQuantita(quantita).build();
 	}
 	
 	@Override

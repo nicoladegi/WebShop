@@ -13,5 +13,14 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  
+  <jsp-config>
+    <!-- tag libraries -->
+    <taglib>
+      <taglib-uri>http://java.sun.com/jstl/core</taglib-uri>
+      <taglib-location>tld/c-1_0.tld</taglib-location>
+    </taglib>
+  </jsp-config>
+  
 </web-app>
 

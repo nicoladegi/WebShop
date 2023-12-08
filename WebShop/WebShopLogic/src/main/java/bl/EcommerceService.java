@@ -9,10 +9,14 @@ import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import dao.ListeOrdiniDao;
 import dao.ProdottoDao;
 import dao.ProduttoreDao;
+import dto.ListeOrdiniDto;
+import dto.OrdineDto;
 import dto.ProdottoDto;
 import dto.ProduttoreDto;
+import entities.ListeOrdini;
 
 /**
  * Session Bean implementation class EcommerceService
@@ -22,32 +26,40 @@ import dto.ProduttoreDto;
 @Stateless(name="eService", mappedName="eService")
 public class EcommerceService implements EcommerceServiceLocal {
 
-		@PersistenceContext
+		@PersistenceContext(unitName = "MagNegozio")
 		private EntityManager em;
+		
 		private ProdottoDao prodottoDao;
 		private ProduttoreDao produttoreDao;
+		private ListeOrdiniDao ordiniDao;
 		
 	    public EcommerceService() {
 	    	System.out.println("Ejb istanziato");
-
 	    }
 
 	    @PostConstruct //verrà eseguito automaticamente dal contenitore EJB dopo la creazione dell’istanza di EcommerceService (durante l'invocazione remota) e prima che venga utilizzata per la prima volta.
 	    private void initializeDao() {
+	    	
 	    	prodottoDao = new ProdottoDao(em);
 	    	produttoreDao = new ProduttoreDao(em);
+	    	ordiniDao = new ListeOrdiniDao(em);
 	    	System.out.println("Sono stato richiamato, Dao inizializzati");
 	    }
 	    
 	    @TransactionAttribute(TransactionAttributeType.REQUIRED)
-	    public ProdottoDto searchProduct(int id) {
-	    	ProdottoDto result = prodottoDao.ricercaPerId(id);
+	    public ProdottoDto searchProduct(ProdottoDto pDto) {
+	    	
+	    	ProdottoDto result = prodottoDao.ricercaPerId(pDto.getId());
+	    	if(result==null) {
+	    		result = prodottoDao.ricercaPerNome(pDto.getModello());
+	    	}
 	    	return result;
 	    }
 
 		@Override
 		@TransactionAttribute(TransactionAttributeType.REQUIRED)
 		public List<ProdottoDto> readProducts() {
+			System.out.println("readProducts");
 	    	List<ProdottoDto> interrogazione = prodottoDao.estraiArchivio();
 	    	return interrogazione;
 		}
@@ -55,6 +67,7 @@ public class EcommerceService implements EcommerceServiceLocal {
 		@Override
 		@TransactionAttribute(TransactionAttributeType.REQUIRED)
 		public List<ProduttoreDto> readMakers() {
+			
 			List<ProduttoreDto> interrogazione = produttoreDao.estraiArchivio();
 	    	return interrogazione;
 		}
@@ -62,6 +75,7 @@ public class EcommerceService implements EcommerceServiceLocal {
 		@Override
 		@TransactionAttribute(TransactionAttributeType.REQUIRED)
 		public List<ProdottoDto> filterProducts4Makers(String nomeProduttore) {
+			
 	    	List<ProdottoDto> outList = prodottoDao.ricercaPerProduttoreHQL(nomeProduttore);
 	    	return outList;
 		}
@@ -69,24 +83,50 @@ public class EcommerceService implements EcommerceServiceLocal {
 		@Override
 		@TransactionAttribute(TransactionAttributeType.REQUIRED)
 		public void deleteProduct(int id) {
+			
 	    	prodottoDao.cancella(id);			
 		}
 
 		@Override
 		@TransactionAttribute(TransactionAttributeType.REQUIRED)
 		public void updateProduct(ProdottoDto pDto) {
+			
 	    	prodottoDao.aggiorna(pDto);			
 		}
+		
+		
 
+		//***********************************************************************************************************************
+		//***********************************************************************************************************************
+		//***********************************************************************************************************************
+		//***********************************************************************************************************************
+
+		
+		
+		
 		@Override
 		@TransactionAttribute(TransactionAttributeType.REQUIRED)
-		public boolean purchase(List<ProdottoDto> lpDto) {
+		public boolean purchase(ListeOrdiniDto lDto) {
 			try {
-				lpDto.forEach(pDto->prodottoDao.inserisci(pDto));
-				}	catch(Exception e) {
+				ordiniDao.inserisci(lDto);
+				for(OrdineDto oDto : lDto.getOrdini()) {
+					ProdottoDto pDto = prodottoDao.ricercaPerId(oDto.getProdottoDto().getId());
+					pDto.setQuantita(pDto.getQuantita()-oDto.getQuantita());
+					prodottoDao.aggiorna(pDto);
+				}
+				
+			}	catch(Exception e) {
 					return false;
-					}
+				}
 			return true;
+		}
+		
+		@Override
+		@TransactionAttribute(TransactionAttributeType.REQUIRED)
+		public List<ListeOrdini> readPurchaseHistory(String user) {
+			List<ListeOrdini> storico = ordiniDao.estrazioneStorico(user);
+			
+			return storico;
 		}
 	    
 	    //Aggiungi prodotto

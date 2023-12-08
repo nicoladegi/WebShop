@@ -95,7 +95,8 @@ public class ProdottoDao implements Dao<ProdottoDto>{
     public List<ProdottoDto> estraiArchivio() {
     	List<Prodotto> auxList = new ArrayList<>();
 		try {
-			Query q = em.createQuery("FROM Prodotto ");
+			Query q = em.createQuery("FROM Prodotto p JOIN FETCH p.produttore");
+			System.out.println("Definita query");
 			auxList = (List<Prodotto>) q.getResultList();
 		}	catch(Exception e) {
 				e.printStackTrace();

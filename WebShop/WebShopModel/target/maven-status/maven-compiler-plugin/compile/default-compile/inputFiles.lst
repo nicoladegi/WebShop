@@ -2,8 +2,11 @@
 /Users/nicola/Documents/GitRepositories/WebShopRepository/WebShop/WebShopModel/src/main/java/dto/ProduttoreDto.java
 /Users/nicola/Documents/GitRepositories/WebShopRepository/WebShop/WebShopModel/src/main/java/dao/ProduttoreDao.java
 /Users/nicola/Documents/GitRepositories/WebShopRepository/WebShop/WebShopModel/src/main/java/dto/ProdottoDto.java
+/Users/nicola/Documents/GitRepositories/WebShopRepository/WebShop/WebShopModel/src/main/java/entities/Ordine.java
 /Users/nicola/Documents/GitRepositories/WebShopRepository/WebShop/WebShopModel/src/main/java/entities/Prodotto.java
-/Users/nicola/Documents/GitRepositories/WebShopRepository/WebShop/WebShopModel/src/main/java/entities/Ordini.java
 /Users/nicola/Documents/GitRepositories/WebShopRepository/WebShop/WebShopModel/src/main/java/dao/Dao.java
+/Users/nicola/Documents/GitRepositories/WebShopRepository/WebShop/WebShopModel/src/main/java/entities/ListeOrdini.java
+/Users/nicola/Documents/GitRepositories/WebShopRepository/WebShop/WebShopModel/src/main/java/dto/OrdineDto.java
 /Users/nicola/Documents/GitRepositories/WebShopRepository/WebShop/WebShopModel/src/main/java/entities/Produttore.java
-/Users/nicola/Documents/GitRepositories/WebShopRepository/WebShop/WebShopModel/src/main/java/dao/JPAUtil.java
+/Users/nicola/Documents/GitRepositories/WebShopRepository/WebShop/WebShopModel/src/main/java/dao/ListeOrdiniDao.java
+/Users/nicola/Documents/GitRepositories/WebShopRepository/WebShop/WebShopModel/src/main/java/dto/ListeOrdiniDto.java

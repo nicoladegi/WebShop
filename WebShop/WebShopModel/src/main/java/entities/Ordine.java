@@ -4,44 +4,70 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 import dto.OrdineDto;
+import dto.ProdottoDto;
 
 
 /**
- * The persistent class for the ordini database table.
+ * The persistent class for the Ordine database table.
  * 
  */
 @Entity
-@Table(name = "Ordini")
-@NamedQuery(name="Ordini.findAll", query="SELECT o FROM Ordine o")
+@NamedQuery(name="Ordine.findAll", query="SELECT o FROM Ordine o")
 public class Ordine implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int idOrdine;
-
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="idProdotto")
-	private Prodotto prodotto;
+	@GeneratedValue(strategy= GenerationType.IDENTITY)
+	private long id;
 	private int quantita;
 
-	public Ordine(Builder builder) {
-		super();
-		this.idOrdine = builder.idOrdine;
-		this.prodotto = builder.prodotto;
-		this.quantita = builder.quantita;
-	}
-	
+	//bi-directional many-to-one association to Prodotto
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="prodotto_id")
+	private Prodotto prodotto;
+
 	public Ordine() {
-		
 	}
 
-	public int getIdOrdine() {
-		return this.idOrdine;
+    private Ordine(Builder builder) {
+        this.id = builder.id;
+        this.prodotto = builder.prodotto;
+        this.quantita = builder.quantita;
+        //this.listeOrdini = builder.listeOrdini;
+    }
+    
+    public static class Builder {
+        private long id;
+        private Prodotto prodotto;
+        private int quantita;
+        //private ListeOrdini listeOrdini;
+
+        public Builder addId(long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder addProdotto(Prodotto prodotto) {
+            this.prodotto = prodotto;
+            return this;
+        }
+
+        public Builder addQuantita(int quantita) {
+            this.quantita = quantita;
+            return this;
+        }
+
+        public Ordine build() {
+            return new Ordine(this);
+        }
+    }
+	
+	public long getId() {
+		return this.id;
 	}
 
-	public void setIdOrdine(int idOrdine) {
-		this.idOrdine = idOrdine;
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public int getQuantita() {
@@ -53,40 +79,21 @@ public class Ordine implements Serializable {
 	}
 
 	public Prodotto getProdotto() {
-		return prodotto;
+		return this.prodotto;
 	}
 
 	public void setProdotto(Prodotto prodotto) {
 		this.prodotto = prodotto;
 	}
 	
-	public static class Builder{
-		
-		private int idOrdine;
-		private Prodotto prodotto;
-		private int quantita;
-		
-		public Builder addidOrdine(int i) {
-			this.idOrdine = i;
-			return this;
-		}
-		
-		public Builder addProdotto(Prodotto p) {
-			this.prodotto = p;
-			return this;
-		}
-		
-		public Builder addQuantità(int s) {
-			this.quantita = s;
-			return this;
-		}
-	
-		public Ordine build() {
-			return new Ordine(this);
-		}
-	}
-
 	public OrdineDto toDto() {
-	    return new OrdineDto.Builder().addidOrdine(idOrdine).addProdotto(null).addQuantità(idOrdine).build();
-	}
+        OrdineDto dto = new OrdineDto.Builder().addidOrdine(this.id).addQuantità(this.quantita).build();
+
+        if (this.prodotto != null) {
+        	ProdottoDto pDto = this.prodotto.toDto();
+            dto.setProdottoDto(pDto);
+        }
+        return dto;
+    }
+
 }

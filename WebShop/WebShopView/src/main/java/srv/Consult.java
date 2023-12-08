@@ -2,38 +2,73 @@ package srv;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bl.ChartInterfaceLocal;
 import bl.EcommerceServiceLocal;
 import dto.ProdottoDto;
-import dto.ProduttoreDto;
+import entities.ListeOrdini;
 
 
 
 @WebServlet("/Consult")
 public class Consult extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private Map<Integer, ProdottoDto> pdto1;
-	private List<ProduttoreDto> pdto;
-
-
+	private List<ProdottoDto> prodottiDto;
+	private List<ListeOrdini> lord;
+	
 	@EJB
 	EcommerceServiceLocal serv;
 	
+	@EJB 
+	ChartInterfaceLocal<ProdottoDto> chart;
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		pdto = serv.consultaProduttori();
-		pdto.forEach(ProduttoreDto::print);
+		RequestDispatcher dispatcher;
+		String path = "/WEB-INF/jsp/home.jsp";
+		String in = request.getParameter("input");
+		Integer input = (in == null) ? -1 : Integer.valueOf(in);
 		
-		pdto1 = serv.consultaProdotti();
-		pdto1.forEach((k,v)->v.print());;
+		switch(input) {
+		
+		case 1:
+			break;
+		case 2:
+			break;	
+			
+		default: 	
+					prodottiDto = serv.readProducts();
+					request.getSession(true).setAttribute("lProdotti", prodottiDto);
+					dispatcher = getServletContext().getRequestDispatcher(path);
+					
+					List<ProdottoDto> lProdotti = (List<ProdottoDto>) request.getSession().getAttribute("lProdotti");
+
+					// Verifica se l'attributo è stato impostato correttamente
+					if (lProdotti != null) {
+						for(ProdottoDto pdto : lProdotti) {
+						    System.out.println(pdto.toString());
+						}
+					} else {
+					    System.out.println("L'attributo 'lProdotti' non è stato impostato.");
+					}
+					
+					
+					
+					dispatcher.forward(request, response);
+					
+					
+					break;
+					
+
+		}
+		
 		
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}

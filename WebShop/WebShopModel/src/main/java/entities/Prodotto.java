@@ -1,33 +1,38 @@
 package entities;
 
+import java.io.Serializable;
 import javax.persistence.*;
+
 import dto.ProdottoDto;
 import dto.ProduttoreDto;
 
-/*
- * Nel tuo caso, l’annotazione @ManyToOne sulla proprietà produttore nella classe Prodotto indica che ogni Prodotto ha un Produttore. 
- * Quando persisti un oggetto Prodotto, dovresti avere un oggetto Produttore associato a quel Prodotto.
- * Non è necessario inserire manualmente l’ID del Produttore. Quando chiami il metodo persist sull’oggetto Prodotto, JPA dovrebbe automaticamente prendere l’ID dal Produttore associato e 
- * inserirlo nel campo idProduttore nel database.
- */
 
+/**
+ * The persistent class for the prodotto database table.
+ * 
+ */
 @Entity
-public class Prodotto {
-	
+@NamedQuery(name="Prodotto.findAll", query="SELECT p FROM Prodotto p")
+public class Prodotto implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	private Integer idProdotto;
-	
+	private int idProdotto;
+
 	private String modello;
-	private int stock;
+
 	private float prezzo;
+
+	private int stock;
+
 	private char tipo;
-	
-	//String catMerceologica;
-	@ManyToOne(fetch = FetchType.EAGER)
+
+	//bi-directional many-to-one association to Produttore
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="idProduttore")
 	private Produttore produttore;
-	
+
 	public Prodotto() {
 	}
 
@@ -83,42 +88,66 @@ public class Prodotto {
 		}
 	}
 	
-	public String getModello() {
-		return modello;
+	public int getIdProdotto() {
+		return this.idProdotto;
 	}
+
+	public void setIdProdotto(int idProdotto) {
+		this.idProdotto = idProdotto;
+	}
+
+	public String getModello() {
+		return this.modello;
+	}
+
 	public void setModello(String modello) {
 		this.modello = modello;
 	}
-	public int getStock() {
-		return stock;
+
+	public float getPrezzo() {
+		return this.prezzo;
 	}
+
+	public void setPrezzo(float prezzo) {
+		this.prezzo = prezzo;
+	}
+
+	public int getStock() {
+		return this.stock;
+	}
+
 	public void setStock(int stock) {
 		this.stock = stock;
 	}
-	public int getIdProdotto() {
-		return idProdotto;
-	}
-	public Produttore getProduttore() {
-		return produttore;
-	}
-	public void setProduttore(Produttore produttore) {
-		this.produttore = produttore;
-	}
-	public float getPrezzo() {
-		return prezzo;
-	}
-	public void setPrezzo(float prezzo) {
-		this.prezzo = prezzo;
-	}	
+
 	public char getTipo() {
-		return tipo;
+		return this.tipo;
 	}
+
 	public void setTipo(char tipo) {
 		this.tipo = tipo;
+	}
+
+
+	public Produttore getProduttore() {
+		return this.produttore;
+	}
+
+	public void setProduttore(Produttore produttore) {
+		this.produttore = produttore;
 	}
 
 	public ProdottoDto toDto() {
 	    ProduttoreDto produttoreDtoLight = this.produttore != null ? this.produttore.toDtoLight() : null;
 	    return new ProdottoDto.Builder().addidProdotto(this.idProdotto).addModello(this.modello).addProduttore(produttoreDtoLight).addPrezzo(this.prezzo).addStock(this.stock).addTipo(tipo).build();
 	}
+
+	@Override
+	public String toString() {
+		return "Prodotto [idProdotto=" + idProdotto + ", modello=" + modello + ", prezzo=" + prezzo + ", stock=" + stock
+				+ ", tipo=" + tipo + ", " + produttore.toString();
+	}
+	
+	
+	
 }

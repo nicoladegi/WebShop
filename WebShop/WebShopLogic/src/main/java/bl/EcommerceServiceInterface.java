@@ -1,9 +1,10 @@
 package bl;
 
 import java.util.List;
-import java.util.Map;
+import dto.ListeOrdiniDto;
 import dto.ProdottoDto;
 import dto.ProduttoreDto;
+import entities.ListeOrdini;
 
 public interface EcommerceServiceInterface {
 	
@@ -19,7 +20,9 @@ public interface EcommerceServiceInterface {
     //aggiorna ad esempio la giacenza
     public void updateProduct(ProdottoDto pDto);
     
-    public boolean purchase(List<ProdottoDto> lpDto);
+    public boolean purchase(ListeOrdiniDto lDto);
     
-    public ProdottoDto searchProduct(int id);
+    public ProdottoDto searchProduct(ProdottoDto pDto);
+    
+    public List<ListeOrdini> readPurchaseHistory(String user);
 }
